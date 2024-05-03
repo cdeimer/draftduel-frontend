@@ -1,0 +1,59 @@
+<div class="roster">
+    <p>Player 1</p>
+    <div class="roster__header">
+        <h2>QBs</h2>
+    </div>
+    <div class="roster__players">
+        <app-roster-entry *ngFor="let player of gameState.playerOneRoster.getQbs()" [player]="player"></app-roster-entry>
+    </div>
+    <div class="roster__header">
+        <h2>RBs</h2>
+    </div>
+    <div class="roster__players">
+        <app-roster-entry *ngFor="let player of gameState.playerOneRoster.getRbs()" [player]="player"></app-roster-entry>
+    </div>
+    <div class="roster__header">
+        <h2>WRs</h2>
+    </div>
+    <div class="roster__players">
+        <app-roster-entry *ngFor="let player of gameState.playerOneRoster.getWrs()" [player]="player"></app-roster-entry>
+    </div>
+    <div class="roster__header">
+        <h2>TEs</h2>
+    </div>
+    <div class="roster__players">
+        <app-roster-entry *ngFor="let player of gameState.playerOneRoster.getTes()" [player]="player"></app-roster-entry>
+    </div>
+    <div class="roster__draft-window">
+    </div>
+</div>
+
+<div class="roster">
+    <p>Player 2</p>
+    <div class="roster__header">
+        <h2>QBs</h2>
+    </div>
+    <div class="roster__players">
+        <app-roster-entry *ngFor="let player of gameState.playerTwoRoster.getQbs()" [player]="player"></app-roster-entry>
+    </div>
+    <div class="roster__header">
+        <h2>RBs</h2>
+    </div>
+    <div class="roster__players">
+        <app-roster-entry *ngFor="let player of gameState.playerTwoRoster.getRbs()" [player]="player"></app-roster-entry>
+    </div>
+    <div class="roster__header">
+        <h2>WRs</h2>
+    </div>
+    <div class="roster__players">
+        <app-roster-entry *ngFor="let player of gameState.playerTwoRoster.getWrs()" [player]="player"></app-roster-entry>
+    </div>
+    <div class="roster__header">
+        <h2>TEs</h2>
+    </div>
+    <div class="roster__players">
+        <app-roster-entry *ngFor="let player of gameState.playerTwoRoster.getTes()" [player]="player"></app-roster-entry>
+    </div>
+    <div class="roster__draft-window">
+    </div>
+</div>
