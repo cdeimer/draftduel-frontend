@@ -1,71 +1,17 @@
 <div class="roster-container">
-    <div class="roster">
-        <p>Player 1</p>
-        <div class="roster-position-header">
-            <h2>QBs</h2>
-        </div>
-        <div class="roster-players-filled">
-            <app-roster-entry *ngFor="let player of gameState.playerOneRoster.getPlayersFilled('QB')" [player]="player"></app-roster-entry>
-        </div>
-        <div class="roster-players-empty">
-            <app-empty-roster-entry *ngFor="let player of gameState.playerOneRoster.getPlayersNeeded('QB')"></app-empty-roster-entry>
-        </div>
-        <div class="roster-position-header">
-            <h2>RBs</h2>
-        </div>
-        <div class="roster-players-filled">
-            <app-roster-entry *ngFor="let player of gameState.playerOneRoster.getRbs()" [player]="player"></app-roster-entry>
-        </div>
-        <div class="roster-players-empty">
-            <app-empty-roster-entry *ngFor="let player of gameState.playerOneRoster.getPlayersNeeded('RB')"></app-empty-roster-entry>
-        </div>
-        <div class="roster-position-header">
-            <h2>WRs</h2>
-        </div>
-        <div class="roster-players-filled">
-            <app-roster-entry *ngFor="let player of gameState.playerOneRoster.getWrs()" [player]="player"></app-roster-entry>
-        </div>
-        <div class="roster-players-empty">
-            <app-empty-roster-entry *ngFor="let player of gameState.playerOneRoster.getPlayersNeeded('WR')"></app-empty-roster-entry>
-        </div>
-        <div class="roster-position-header">
-            <h2>TEs</h2>
-        </div>
-        <div class="roster-players-filled">
-            <app-roster-entry *ngFor="let player of gameState.playerOneRoster.getTes()" [player]="player"></app-roster-entry>
-        </div>
-        <div class="roster-players-empty">
-            <app-empty-roster-entry *ngFor="let player of gameState.playerOneRoster.getPlayersNeeded('TE')"></app-empty-roster-entry>
-        </div>
-    </div>
-
-    <div class="roster">
-        <p>Player 2</p>
-        <div class="roster-position-header">
-            <h2>QBs</h2>
-        </div>
-        <div class="roster-players-filled">
-            <app-roster-entry *ngFor="let player of gameState.playerTwoRoster.getQbs()" [player]="player"></app-roster-entry>
-        </div>
-        <div class="roster-position-header">
-            <h2>RBs</h2>
-        </div>
-        <div class="roster-players-filled">
-            <app-roster-entry *ngFor="let player of gameState.playerTwoRoster.getRbs()" [player]="player"></app-roster-entry>
-        </div>
-        <div class="roster-position-header">
-            <h2>WRs</h2>
-        </div>
-        <div class="roster-players-filled">
-            <app-roster-entry *ngFor="let player of gameState.playerTwoRoster.getWrs()" [player]="player"></app-roster-entry>
-        </div>
-        <div class="roster-position-header">
-            <h2>TEs</h2>
-        </div>
-        <div class="roster-players-filled">
-            <app-roster-entry *ngFor="let player of gameState.playerTwoRoster.getTes()" [player]="player"></app-roster-entry>
-        </div>
-        <div class="roster__draft-window">
+    <!-- iterate over the roster list -->
+    <div *ngFor="let roster of rosters" class="roster">
+        <p>Roster Name</p>
+        <div *ngFor="let position of positionList">
+            <div class="roster-position-header">
+                <h2>{{ position }}</h2>
+            </div>
+            <div class="roster-players-filled">
+                <app-roster-entry *ngFor="let player of roster.getPlayersFilled(position)" [player]="player"></app-roster-entry>
+            </div>
+            <div class="roster-players-empty">
+                <app-empty-roster-entry *ngFor="let player of roster.getPlayersNeeded(position)"></app-empty-roster-entry>
+            </div>
         </div>
     </div>
 </div>

@@ -1,18 +1,14 @@
 .roster-container {
     display: flex;
     justify-content: space-around;
+    width: 90%;
 }
 
 /* roster contains a border around the class */
 .roster {
-    width: 40%; /* Adjust the width as needed */
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
-    margin: 10px;
-}
-
-.user-roster {
-    width: 48%; /* Adjust the width as needed */
-    /* Add any other styles specific to the user roster */
+    margin: 30px;
+    flex: 1 0 48%;
 }
