@@ -1,3 +1,4 @@
+import { Position } from '../interfaces/position';
 import { Player } from '../services/stats.service';
 
 export class Roster {
@@ -71,7 +72,7 @@ export class Roster {
   }
 
   // return a list of positions that the roster still needs to fill
-  getPositionsNeeded(): string[] {
+  getPositionsNeeded(position: Position | null = null): string[] {
     let positions_needed: string[] = [];
     if (
       this.players.filter((p) => p.position === 'QB').length < this.qb_limit
@@ -93,6 +94,41 @@ export class Roster {
     ) {
       positions_needed.push('TE');
     }
+    if (position) {
+      return positions_needed.filter((p) => p === position);
+    }
     return positions_needed;
+  }
+
+  // given a position, return a list of length equal to the number of players needed at that position
+  getPlayersNeeded(position: Position): any[] {
+    let players_needed: any[] = [];
+    let players = this.players.filter((p) => p.position === position);
+    let players_needed_count;
+    switch (position) {
+      case 'QB':
+        players_needed_count = this.qb_limit - players.length;
+        break;
+      case 'RB':
+        players_needed_count = this.rb_limit - players.length;
+        break;
+      case 'WR':
+        players_needed_count = this.wr_limit - players.length;
+        break;
+      case 'TE':
+        players_needed_count = this.te_limit - players.length;
+        break;
+      default:
+        players_needed_count = 0;
+    }
+    for (let i = 0; i < players_needed_count; i++) {
+      players_needed.push({});
+    }
+    return players_needed;
+  }
+
+  // given a position, return a list of filled roster entries for that position
+  getPlayersFilled(position: Position): Player[] {
+    return this.players.filter((p) => p.position === position);
   }
 }

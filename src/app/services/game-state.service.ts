@@ -8,6 +8,9 @@ export interface GameState {
   draftPool: PlayerPool;
   playerOneRoster: Roster;
   playerTwoRoster: Roster;
+  playerOneScores: number[];
+  playerTwoScores: number[];
+  gamePhase: 'PreDraft' | 'Draft' | 'PostDraft';
 }
 
 @Injectable({
@@ -23,6 +26,9 @@ export class GameStateService {
       draftPool: this.statsService.getMockDraftPool(),
       playerOneRoster: new Roster(),
       playerTwoRoster: new Roster(),
+      playerOneScores: [],
+      playerTwoScores: [],
+      gamePhase: 'PreDraft',
     };
   }
 
@@ -45,6 +51,19 @@ export class GameStateService {
       rbs: player.position === 'RB' ? [...roster.rbs, player] : roster.rbs,
       wrs: player.position === 'WR' ? [...roster.wrs, player] : roster.wrs,
       tes: player.position === 'TE' ? [...roster.tes, player] : roster.tes,
+    };
+  }
+
+  resetDraft(gameState: GameState): GameState {
+    return {
+      gameId: gameState.gameId,
+      currentPlayer: 1,
+      draftPool: this.statsService.getMockDraftPool(),
+      playerOneRoster: new Roster(),
+      playerTwoRoster: new Roster(),
+      playerOneScores: gameState.playerOneScores,
+      playerTwoScores: gameState.playerTwoScores,
+      gamePhase: 'PreDraft',
     };
   }
 

@@ -30,6 +30,19 @@ export class AppComponent {
     this.gameState = this.gameStateService.generateGameState();
   }
 
+  startDraft() {
+    this.gameState.gamePhase = 'Draft';
+  }
+
+  endDraft() {
+    this.gameState.gamePhase = 'PostDraft';
+    this.calculateScores();
+  }
+
+  resetDraft() {
+    this.gameState = this.gameStateService.resetDraft(this.gameState);
+  }
+
   // trigger a score calculation for roster when the draft is finished
   // use the getScoresForPlayerPool method from the stats service
   calculateScores() {
@@ -37,14 +50,13 @@ export class AppComponent {
     if (this.draftIsFinished()) {
       this.statsService.getScoresForRoster(this.gameState.playerOneRoster);
       this.statsService.getScoresForRoster(this.gameState.playerTwoRoster);
-      console.log('Scores calculated!');
-      alert(
-        'Player One Score: ' +
-          this.gameState.playerOneRoster.getTotalScore() +
-          '\n' +
-          'Player Two Score: ' +
-          this.gameState.playerTwoRoster.getTotalScore()
+      this.gameState.playerOneScores.push(
+        this.gameState.playerOneRoster.getTotalScore()
       );
+      this.gameState.playerTwoScores.push(
+        this.gameState.playerTwoRoster.getTotalScore()
+      );
+      console.log('Scores calculated!');
     } else {
       console.log('Draft is not finished');
     }
