@@ -4,7 +4,7 @@ import { JsonPipe, NgFor, NgIf } from '@angular/common';
 import { PlayerCardComponent } from './components/player-card/player-card.component';
 import { RosterComponent } from './components/roster/roster.component';
 import { GameState, GameStateService } from './services/game-state.service';
-import { StatsService } from './services/stats.service';
+import { Player, StatsService } from './services/stats.service';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +23,7 @@ import { StatsService } from './services/stats.service';
 export class AppComponent {
   title = 'draftduel-frontend';
   gameState: GameState;
+  playerList: Player[] = [];
   constructor(
     private gameStateService: GameStateService,
     private statsService: StatsService
@@ -30,8 +31,17 @@ export class AppComponent {
     this.gameState = this.gameStateService.generateGameState();
   }
 
+  ngOnInit() {
+    this.statsService.getPlayerPool().subscribe((playerList) => {
+      this.playerList = playerList;
+      this.gameState.draftPool =
+        this.statsService.getMockDraftPoolFromPlayerList(playerList);
+    });
+  }
+
   startDraft() {
     this.gameState.gamePhase = 'Draft';
+    this.statsService.getPlayerPool();
   }
 
   endDraft() {
@@ -41,6 +51,9 @@ export class AppComponent {
 
   resetDraft() {
     this.gameState = this.gameStateService.resetDraft(this.gameState);
+    this.gameState.draftPool = this.statsService.getMockDraftPoolFromPlayerList(
+      this.playerList
+    );
   }
 
   // trigger a score calculation for roster when the draft is finished

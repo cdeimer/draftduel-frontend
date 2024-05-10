@@ -1,6 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { mockPlayerPool } from '../mock_data/mock-player-pool';
 import { Roster } from '../classes/roster';
+import { Observable, tap } from 'rxjs';
 
 export interface Player {
   id: string;
@@ -27,12 +29,46 @@ const totalPlayerPool: PlayerPool = mockPlayerPool;
   providedIn: 'root',
 })
 export class StatsService {
-  numQBs: number = 2;
-  numRBs: number = 4;
-  numWRs: number = 4;
-  numTEs: number = 2;
+  numQBs: number = 5;
+  numRBs: number = 10;
+  numWRs: number = 10;
+  numTEs: number = 5;
 
-  constructor() {}
+  playerList: Player[] = [];
+
+  constructor(private http: HttpClient) {}
+
+  // get player pool from the backend /player_pool endpoint
+  // make an api call to the backend to get the player pool
+  getPlayerPool(): Observable<Player[]> {
+    console.log('Getting player pool from backend...');
+    return this.http.get<Player[]>('http://localhost:8000/player_pool').pipe(
+      tap(() => console.log('Player pool retrieved!')),
+      tap((playerList) => console.log(playerList))
+    );
+  }
+
+  // get mock draft pool from player list
+  getMockDraftPoolFromPlayerList(playerList: Player[]) {
+    return {
+      qbs: this.getRandomPlayers(
+        playerList.filter((p) => p.position === 'QB'),
+        this.numQBs
+      ),
+      rbs: this.getRandomPlayers(
+        playerList.filter((p) => p.position === 'RB'),
+        this.numRBs
+      ),
+      wrs: this.getRandomPlayers(
+        playerList.filter((p) => p.position === 'WR'),
+        this.numWRs
+      ),
+      tes: this.getRandomPlayers(
+        playerList.filter((p) => p.position === 'TE'),
+        this.numTEs
+      ),
+    };
+  }
 
   // return a list of players from the mock player pool, randomly choosing a number of players from each position
   getMockDraftPool() {
