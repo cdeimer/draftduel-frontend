@@ -13,6 +13,25 @@ export interface Player {
   fantasy_points: number;
   games_played: number;
   score?: number;
+  player_box_score?: PlayerBoxScore;
+}
+
+export interface PlayerBoxScore {
+  week: number;
+  team: string;
+  opponent: string;
+  fantasy_points: number;
+  pass_yards: number;
+  pass_tds: number;
+  pass_ints: number;
+  pass_fumbles: number;
+  rush_yards: number;
+  rush_tds: number;
+  rush_fumbles: number;
+  rec_recs: number;
+  rec_yards: number;
+  rec_tds: number;
+  rec_fumbles: number;
 }
 
 export interface PlayerPool {
@@ -111,9 +130,22 @@ export class StatsService {
   }
 
   // get scores for roster
+  // backend endpoint: @app.get("/season/{season}/player/{player_id}/random_week")
+  // async def get_random_week_for_player(season: int, player_id: str) -> PlayerBoxScore:
   getScoresForRoster(roster: Roster) {
     roster.players.forEach((player) => {
-      player.score = Math.round(Math.random() * 30 * 100) / 100;
+      this.http
+        .get<PlayerBoxScore>(
+          'http://localhost:8000/season/' +
+            player.season +
+            '/player/' +
+            player.id +
+            '/random_week'
+        )
+        .subscribe((playerBoxScore) => {
+          console.log(player.name, playerBoxScore.fantasy_points);
+          player.score = playerBoxScore.fantasy_points;
+        });
     });
   }
 }

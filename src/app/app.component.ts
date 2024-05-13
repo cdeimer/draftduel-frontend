@@ -58,11 +58,13 @@ export class AppComponent {
 
   // trigger a score calculation for roster when the draft is finished
   // use the getScoresForPlayerPool method from the stats service
-  calculateScores() {
+  async calculateScores() {
     console.log('Calculating scores...');
     if (this.draftIsFinished()) {
       this.statsService.getScoresForRoster(this.gameState.playerOneRoster);
       this.statsService.getScoresForRoster(this.gameState.playerTwoRoster);
+      // wait for the scores to be calculated
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       this.gameState.playerOneScores.push(
         this.gameState.playerOneRoster.getTotalScore()
       );
@@ -70,6 +72,8 @@ export class AppComponent {
         this.gameState.playerTwoRoster.getTotalScore()
       );
       console.log('Scores calculated!');
+      console.log('Player One Score: ', this.gameState.playerOneScores[0]);
+      console.log('Player Two Score: ', this.gameState.playerTwoScores[0]);
     } else {
       console.log('Draft is not finished');
     }
